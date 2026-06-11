@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Baywave — Lane Availability</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <svg class="header-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,50 C180,90 360,10 540,50 C720,90 900,10 1080,50 C1260,90 1380,30 1440,50 L1440,100 L0,100 Z" fill="#00d3ff" opacity="0.05"/>
+    <path d="M0,60 C120,30 300,80 480,55 C660,30 840,75 1020,55 C1200,35 1350,65 1440,55 L1440,100 L0,100 Z" fill="#00d3ff" opacity="0.04"/>
+  </svg>
+
+  <div class="header-left">
+    <div class="logo-mark">
+      <img src="BV%20logo_Baywave%20white.png" alt="Baywave" class="logo-img">
+    </div>
+    <div class="divider"></div>
+    <div class="page-label">
+      <div class="page-label-title">Lane Availability</div>
+      <div class="page-label-sub">Today's Schedule</div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <div id="clock">--:--</div>
+    <div id="date-display">Loading...</div>
+  </div>
+</header>
+
+<div class="grid-wrapper">
+  <div id="grid-container" class="loading">
+    <img src="BV%20logo_Bay%20Venues.png" alt="Bay Venues" class="loading-logo">
+    Loading lane data...
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
