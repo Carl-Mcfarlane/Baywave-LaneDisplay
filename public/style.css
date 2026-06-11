@@ -324,7 +324,7 @@ header {
 
 .cell.booked.bw-aqua-fit {
   background: var(--aquafit);
-  border-color: #006070;
+  border-color: #005bb5;
   border-left: 3px solid var(--aquafit-dot);
 }
 
