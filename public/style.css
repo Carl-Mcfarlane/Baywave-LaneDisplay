@@ -74,7 +74,7 @@ header {
 }
 
 .logo-img {
-  height: 100px;
+  height: 116px;
   width: auto;
   display: block;
   margin-left: 10px;
@@ -82,7 +82,7 @@ header {
 
 .divider {
   width: 2px;
-  height: 52px;
+  height: 68px;
   background: var(--border);
   border-radius: 2px;
 }
@@ -95,17 +95,17 @@ header {
 
 .page-label-title {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.7rem;
+  font-size: 2.4rem;
   letter-spacing: 0.12em;
   color: var(--text);
   line-height: 1;
 }
 
 .page-label-sub {
-  font-size: 0.62rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--muted);
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
@@ -117,19 +117,32 @@ header {
 
 #clock {
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 3.6rem;
+  font-size: 5rem;
   color: var(--text);
   letter-spacing: 0.08em;
   line-height: 1;
 }
 
 #date-display {
-  font-size: 0.68rem;
+  font-size: 1rem;
   font-weight: 600;
   color: var(--muted);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   margin-top: 4px;
+}
+
+#pool-temp {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 4px;
+  color: var(--muted);
+}
+
+#pool-temp .temp-value {
+  color: var(--accent);
 }
 
 /* ── GRID WRAPPER ────────────────────────────────────────────────────────── */
@@ -151,7 +164,7 @@ header {
   justify-content: center;
   gap: 28px;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 2.2rem;
+  font-size: 2.8rem;
   letter-spacing: 0.18em;
   color: var(--muted);
   text-align: center;
@@ -165,8 +178,8 @@ header {
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.5; transform: scale(1); }
-  50%       { opacity: 0.9; transform: scale(1.04); }
+  0%, 100% { opacity: 0.5; transform: translateX(-60px) scale(1); }
+  50%       { opacity: 0.9; transform: translateX(-60px) scale(1.04); }
 }
 
 /* ── LANE GRID ───────────────────────────────────────────────────────────── */
@@ -184,7 +197,7 @@ header {
 }
 
 .time-col-header {
-  width: 96px;
+  width: 112px;
   flex-shrink: 0;
 }
 
@@ -192,7 +205,7 @@ header {
   flex: 1;
   text-align: center;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.1rem;
+  font-size: 1.5rem;
   letter-spacing: 0.08em;
   color: var(--accent);
   padding: 4px 2px;
@@ -207,7 +220,7 @@ header {
 
 /* ── TIME COLUMN ─────────────────────────────────────────────────────────── */
 .time-col {
-  width: 96px;
+  width: 112px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -233,7 +246,7 @@ header {
 
 .time-slot.hour-mark {
   color: var(--text);
-  font-size: 1rem;
+  font-size: 1.3rem;
   font-weight: 500;
 }
 
@@ -352,8 +365,8 @@ header {
 .key-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.85rem;
+  gap: 12px;
+  font-size: 1.05rem;
   font-weight: 600;
   color: var(--muted);
   letter-spacing: 0.1em;
@@ -361,8 +374,8 @@ header {
 }
 
 .key-swatch {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border-radius: 4px;
   flex-shrink: 0;
 }

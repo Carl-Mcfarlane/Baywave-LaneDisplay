@@ -209,9 +209,24 @@ setInterval(() => {
   if (nl) nl.style.top = nowLinePercent() + '%';
 }, 10000);
 
+// ── POOL TEMP ─────────────────────────────────────────────────────────────────
+async function fetchPoolTemp() {
+  try {
+    const res = await fetch('/api/pool-temp');
+    if (!res.ok) return;
+    const { temp } = await res.json();
+    if (!temp) return;
+    const el = document.getElementById('pool-temp');
+    el.innerHTML = `LAP POOL <span class="temp-value">${temp}</span>`;
+  } catch (_) {}
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 fetchLanes();
 setInterval(fetchLanes, REFRESH_MS);
+
+fetchPoolTemp();
+setInterval(fetchPoolTemp, REFRESH_MS);
 
 // Hard reload every hour so deployed code changes are picked up automatically
 setInterval(() => location.reload(), 60 * 60 * 1000);

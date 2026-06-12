@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/api/swimlane", "destination": "/api/swimlane" }
+    { "source": "/api/swimlane", "destination": "/api/swimlane" },
+    { "source": "/api/pool-temp", "destination": "/api/pool-temp" }
   ],
   "headers": [
     {
