@@ -1,12 +1,12 @@
 :root {
   /* Aqua brand: dark blue #003c84 (Pantone 286 C), light blue #00d3ff (Pantone 2190 C) */
-  --bg:              #001845;
-  --surface:         #002a6b;
-  --border:          #0044a0;
-  --accent:          #00d3ff;
-  --accent-deep:     #0099bb;
-  --text:            #e8f8ff;
-  --muted:           #5090c8;
+  --bg:              #00142e;  /* deep navy, darker than Pantone 286 C for contrast */
+  --surface:         #003c84;  /* Pantone 286 C */
+  --border:          #0056b8;  /* mid-blue — visible against surface on a big TV */
+  --accent:          #00d3ff;  /* Pantone 2190 C */
+  --accent-deep:     #00d3ff;  /* light blue header rule instead of grey */
+  --text:            #ffffff;
+  --muted:           #c8eeff;  /* 30% tint of light blue for secondary text */
   --available:       #00562c;
   --available-dot:   #00e676;
   --swimming:        #003580;
@@ -245,7 +245,7 @@ header {
 }
 
 .time-slot.hour-mark {
-  color: var(--text);
+  color: var(--accent);
   font-size: 1.3rem;
   font-weight: 500;
 }
@@ -258,7 +258,7 @@ header {
   top: 0;
   width: 8px;
   height: 2px;
-  background: #ffffff;
+  background: var(--accent);
   transform: translateX(100%);
 }
 
@@ -378,15 +378,18 @@ header {
   height: 28px;
   border-radius: 4px;
   flex-shrink: 0;
+  /* match cell appearance: dark bg + coloured left stripe */
+  border-left: 4px solid transparent;
+  background: var(--surface);
 }
 
-.key-swatch.available     { background: var(--available-dot); }
-.key-swatch.swimming      { background: var(--swimming-dot); }
-.key-swatch.aqua-class    { background: var(--aqua-dot); }
-.key-swatch.learn-to-swim { background: var(--lts-dot); }
-.key-swatch.water-polo    { background: var(--waterpolo-dot); }
-.key-swatch.synchro           { background: var(--synchro-dot); }
-.key-swatch.schools-in-pools  { background: var(--schools-dot); }
-.key-swatch.bw-aqua-fit       { background: var(--aquafit-dot); }
-.key-swatch.booked            { background: #aaa; }
-.key-swatch.na                { background: var(--border); }
+.key-swatch.available     { background: var(--available);  border-color: var(--available-dot); }
+.key-swatch.swimming      { background: var(--swimming);   border-color: var(--swimming-dot); }
+.key-swatch.aqua-class    { background: var(--aqua);       border-color: var(--aqua-dot); }
+.key-swatch.learn-to-swim { background: var(--lts);        border-color: var(--lts-dot); }
+.key-swatch.water-polo    { background: var(--waterpolo);  border-color: var(--waterpolo-dot); }
+.key-swatch.synchro          { background: var(--synchro);  border-color: var(--synchro-dot); }
+.key-swatch.schools-in-pools { background: var(--schools);  border-color: var(--schools-dot); }
+.key-swatch.bw-aqua-fit      { background: var(--aquafit);  border-color: var(--aquafit-dot); }
+.key-swatch.booked           { background: #1a1a2e;         border-color: #aaa; }
+.key-swatch.na               { background: var(--surface);  border-color: var(--border); }
