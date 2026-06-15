@@ -58,7 +58,7 @@ header {
 .header-left {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 2.5rem;
   position: relative;
   z-index: 1;
   flex-shrink: 0;
