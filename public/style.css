@@ -48,9 +48,10 @@ header {
 
 .header-wave {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   pointer-events: none;
 }
 
@@ -60,6 +61,7 @@ header {
   gap: 1.25rem;
   position: relative;
   z-index: 1;
+  flex-shrink: 0;
 }
 
 .logo-mark {
@@ -94,6 +96,7 @@ header {
   letter-spacing: 0.12em;
   color: #ffffff;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .page-label-sub {
@@ -102,6 +105,7 @@ header {
   color: var(--muted);
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .header-right {
