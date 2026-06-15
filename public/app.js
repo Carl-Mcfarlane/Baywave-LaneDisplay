@@ -182,8 +182,11 @@ let retryTimeout = null;
 async function fetchLanes() {
   const date = todayNZT();
   const url = `${API}?source=${POOL}&date=${date}`;
+  const controller = new AbortController();
+  const fetchTimeout = setTimeout(() => controller.abort(), 20000);
   try {
-    const res = await fetch(url);
+    const res = await fetch(url, { signal: controller.signal });
+    clearTimeout(fetchTimeout);
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     if (!data.success) throw new Error('API returned success:false');
@@ -195,9 +198,10 @@ async function fetchLanes() {
     render(lanes);
 
   } catch (err) {
+    clearTimeout(fetchTimeout);
     const container = document.getElementById('grid-container');
     container.className = 'error';
-    container.textContent = `Unable to load lane data — ${err.message}`;
+    container.textContent = `Unable to load lane data — ${err.name === 'AbortError' ? 'Request timed out' : err.message}`;
     console.error(err);
     clearTimeout(retryTimeout);
     retryTimeout = setTimeout(fetchLanes, 60 * 1000);
