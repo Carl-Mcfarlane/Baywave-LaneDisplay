@@ -18,8 +18,8 @@
   --now-line:        #ff6e20;
 }
 
-/* 1rem = 16px at 1920px wide; doubles automatically at 4K (3840px) */
-html { font-size: 0.833vw; }
+/* 1rem = 16px at 1920×1080; scales with viewport but capped by height to handle ultrawide */
+html { font-size: min(0.833vw, 1.481vh); }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
