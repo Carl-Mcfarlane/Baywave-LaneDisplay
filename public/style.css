@@ -4,7 +4,6 @@
   --surface:         #003c84;  /* Pantone 286 C — header and unknown bookings */
   --border:          #0056b8;  /* mid-blue */
   --accent:          #ffffff;
-  --accent-deep:     #ffffff;  /* white rule under header */
   --text:            #0056b8;  /* dark blue text on light background */
   --muted:           #c8eeff;  /* light blue for secondary text on dark surfaces */
   --available:       #d8f8ff;
@@ -13,7 +12,7 @@
   --lts:             #ffea00;
   --waterpolo:       #ff7b7b;
   --synchro:         #ffba54;
-  --schools:         #3d3800;
+  --schools:         #52d9af;
   --aquafit:         #003c84;
   --now-line:        #ff6e20;
 }
@@ -40,7 +39,7 @@ header {
   justify-content: space-between;
   padding: 1.25rem 2.75rem 1rem;
   background: var(--surface);
-  border-bottom: 2px solid var(--accent-deep);
+  border-bottom: 2px solid var(--accent);
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
@@ -168,7 +167,7 @@ header {
   color: var(--text);
   text-align: center;
 }
-.error { color: var(--waterpolo-dot); }
+.error { color: var(--waterpolo); }
 
 .loading-logo {
   height: 7.5rem;
@@ -344,4 +343,3 @@ header {
 .key-swatch.schools-in-pools { background: var(--schools); }
 .key-swatch.bw-aqua-fit      { background: var(--aquafit); }
 .key-swatch.booked           { background: var(--surface); }
-.key-swatch.na               { background: var(--bg); border: 1px solid var(--border); }

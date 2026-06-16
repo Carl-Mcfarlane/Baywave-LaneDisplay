@@ -193,6 +193,7 @@ async function fetchLanes() {
     const lanes = parseGrid(data.html);
     if (lanes.length === 0) throw new Error('No lane data parsed');
 
+    clearTimeout(retryTimeout);
     const container = document.getElementById('grid-container');
     container.innerHTML = '';
     render(lanes);
