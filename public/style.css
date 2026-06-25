@@ -343,3 +343,89 @@ header {
 .key-swatch.schools-in-pools { background: var(--schools); }
 .key-swatch.bw-aqua-fit      { background: var(--aquafit); }
 .key-swatch.booked           { background: var(--surface); }
+
+/* ── CLOSURES BAR ────────────────────────────────────────────────────────── */
+#closures-bar {
+  display: none;
+  flex-shrink: 0;
+  background: var(--surface);
+  border-top: 2px solid var(--border);
+  padding: 0.65rem 2.75rem;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+#closures-bar.visible { display: flex; }
+
+.closures-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.closures-divider {
+  width: 2px;
+  height: 1.4rem;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+/* ── TICKER ──────────────────────────────────────────────────────────────── */
+.closures-ticker-wrap {
+  flex: 1;
+  overflow: hidden;
+  min-width: 0;
+  mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
+}
+
+#closures-ticker {
+  display: inline-flex;
+  white-space: nowrap;
+  align-items: center;
+  animation: ticker-scroll linear infinite;
+  will-change: transform;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.ticker-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.55rem;
+  padding: 0 2.5rem;
+}
+
+.ticker-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #00d3ff;
+  letter-spacing: 0.04em;
+}
+
+.ticker-dash { color: var(--border); }
+
+.ticker-event {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.03em;
+}
+
+.ticker-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.ticker-diamond {
+  color: var(--border);
+  font-size: 0.65rem;
+  padding: 0 0.5rem;
+}

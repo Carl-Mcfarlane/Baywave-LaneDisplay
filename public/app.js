@@ -214,6 +214,78 @@ setInterval(() => {
   if (nl) nl.style.top = nowLinePercent() + '%';
 }, 10000);
 
+// ── CLOSURES TICKER ───────────────────────────────────────────────────────────
+function safeText(el, text) { el.textContent = text; }
+
+function buildTickerSegment(closures) {
+  const frag = document.createDocumentFragment();
+  closures.forEach(({ date, event, area, times }, i) => {
+    if (i > 0) {
+      const diamond = document.createElement('span');
+      diamond.className = 'ticker-diamond';
+      diamond.textContent = '◆';
+      frag.appendChild(diamond);
+    }
+    const item = document.createElement('span');
+    item.className = 'ticker-item';
+
+    const dateEl = document.createElement('span');
+    dateEl.className = 'ticker-date';
+    safeText(dateEl, date);
+
+    const dash = document.createElement('span');
+    dash.className = 'ticker-dash';
+    dash.textContent = '—';
+
+    const eventEl = document.createElement('span');
+    eventEl.className = 'ticker-event';
+    safeText(eventEl, event);
+
+    item.appendChild(dateEl);
+    item.appendChild(dash);
+    item.appendChild(eventEl);
+
+    const meta = [area, times].filter(Boolean).join(' · ');
+    if (meta) {
+      const metaEl = document.createElement('span');
+      metaEl.className = 'ticker-meta';
+      safeText(metaEl, '· ' + meta);
+      item.appendChild(metaEl);
+    }
+
+    frag.appendChild(item);
+  });
+  return frag;
+}
+
+async function fetchClosures() {
+  const bar    = document.getElementById('closures-bar');
+  const ticker = document.getElementById('closures-ticker');
+  try {
+    const res = await fetch('/api/closures');
+    if (!res.ok) throw new Error('bad status');
+    const { closures } = await res.json();
+
+    if (!closures || closures.length === 0) {
+      bar.classList.remove('visible');
+      ticker.innerHTML = '';
+      return;
+    }
+
+    ticker.innerHTML = '';
+    ticker.appendChild(buildTickerSegment(closures));
+    ticker.appendChild(buildTickerSegment(closures)); // duplicate for seamless loop
+
+    // Set scroll speed to ~80px/s based on rendered width
+    requestAnimationFrame(() => {
+      const halfWidth = ticker.scrollWidth / 2;
+      ticker.style.animationDuration = `${Math.round(halfWidth / 80)}s`;
+    });
+
+    bar.classList.add('visible');
+  } catch (_) {}
+}
+
 // ── POOL TEMP ─────────────────────────────────────────────────────────────────
 async function fetchPoolTemp() {
   try {
@@ -232,6 +304,9 @@ setInterval(fetchLanes, REFRESH_MS);
 
 fetchPoolTemp();
 setInterval(fetchPoolTemp, REFRESH_MS);
+
+fetchClosures();
+setInterval(fetchClosures, 60 * 60 * 1000);
 
 // Hard reload every hour so deployed code changes are picked up automatically
 setInterval(() => location.reload(), 60 * 60 * 1000);
