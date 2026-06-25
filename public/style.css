@@ -378,6 +378,7 @@ header {
   flex: 1;
   overflow: hidden;
   min-width: 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
   mask-image: linear-gradient(to right, transparent 0%, black 3%, black 97%, transparent 100%);
 }
 
@@ -385,8 +386,7 @@ header {
   display: inline-flex;
   white-space: nowrap;
   align-items: center;
-  animation: ticker-scroll linear infinite;
-  will-change: transform;
+  /* duration set by JS after measuring content width */
 }
 
 @keyframes ticker-scroll {

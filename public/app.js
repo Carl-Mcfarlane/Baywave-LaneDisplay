@@ -273,16 +273,18 @@ async function fetchClosures() {
     }
 
     ticker.innerHTML = '';
+    ticker.style.animation = '';
     ticker.appendChild(buildTickerSegment(closures));
     ticker.appendChild(buildTickerSegment(closures)); // duplicate for seamless loop
 
-    // Set scroll speed to ~80px/s based on rendered width
-    requestAnimationFrame(() => {
-      const halfWidth = ticker.scrollWidth / 2;
-      ticker.style.animationDuration = `${Math.round(halfWidth / 80)}s`;
-    });
-
     bar.classList.add('visible');
+
+    // Measure after layout settles, then start animation
+    setTimeout(() => {
+      const halfWidth = ticker.scrollWidth / 2;
+      const duration  = halfWidth > 0 ? Math.round(halfWidth / 80) : 40;
+      ticker.style.animation = `ticker-scroll ${duration}s linear infinite`;
+    }, 200);
   } catch (_) {}
 }
 
