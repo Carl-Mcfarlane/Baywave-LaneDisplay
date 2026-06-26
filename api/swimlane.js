@@ -56,6 +56,7 @@ module.exports = async function handler(req, res) {
     return res.status(200).json(data);
 
   } catch (err) {
+    clearTimeout(timeout);
     return res.status(500).json({ error: err.message });
   }
 }

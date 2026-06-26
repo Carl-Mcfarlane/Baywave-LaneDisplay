@@ -23,4 +23,7 @@ app.get('/api/closures', (req, res) => closuresHandler(req, res));
 
 app.listen(PORT, () => {
   console.log(`Baywave display running at http://localhost:${PORT}`);
+}).on('error', err => {
+  console.error('Server failed to start:', err.message);
+  process.exit(1);
 });

@@ -29,6 +29,7 @@ module.exports = async function handler(req, res) {
     res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate');
     return res.status(200).json({ closures });
   } catch (err) {
+    clearTimeout(timeout);
     return res.status(500).json({ error: err.message });
   }
 };
@@ -110,7 +111,10 @@ function parseBaywaveClosures(html) {
       const lastMonthNum = MONTHS[lastMonth.toLowerCase()];
       if (lastMonthNum === undefined) return null;
 
-      const endDate = new Date(currentYear, lastMonthNum, lastDay);
+      // If the end month is earlier than the start month, the closure wraps into next year
+      const firstMonthNum = MONTHS[first.month.toLowerCase()];
+      const endYear = (firstMonthNum !== undefined && lastMonthNum < firstMonthNum) ? currentYear + 1 : currentYear;
+      const endDate = new Date(endYear, lastMonthNum, lastDay);
       if (endDate < today) return null;
 
       const firstAbbr = first.month.slice(0, 3);
