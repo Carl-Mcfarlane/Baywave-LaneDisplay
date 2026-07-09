@@ -67,7 +67,8 @@ function parseGrid(html) {
         if (cls.includes('water-polo'))    return 'water-polo';
         if (cls.includes('synchro'))          return 'synchro';
         if (cls.includes('schools-in-pools')) return 'schools-in-pools';
-        if (cls.includes('bw-aqua-fit'))      return 'bw-aqua-fit';
+        if (cls.includes('bw-aqua-fit'))        return 'bw-aqua-fit';
+        if (cls.includes('underwater-hockey')) return 'underwater-hockey';
         return 'booked';
       }
       return 'available';
@@ -159,8 +160,9 @@ function render(lanes) {
     ['water-polo',       'Water Polo'],
     ['synchro',          'Synchro'],
     ['schools-in-pools', 'Schools in Pools'],
-    ['bw-aqua-fit',      'Aqua Fit'],
-    ['booked',           'Other Booking'],
+    ['bw-aqua-fit',       'Aqua Fit'],
+    ['underwater-hockey', 'Underwater Hockey'],
+    ['booked',            'Other'],
   ].filter(([cls]) => presentTypes.has(cls));
   keyItems.forEach(([cls, label]) => {
     const item = document.createElement('div');

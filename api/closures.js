@@ -117,6 +117,11 @@ function parseBaywaveClosures(html) {
       const endDate = new Date(endYear, lastMonthNum, lastDay);
       if (endDate < today) return null;
 
+      const startYear = (firstMonthNum !== undefined && firstMonthNum < todayMonth) ? currentYear + 1 : currentYear;
+      const startDate = new Date(startYear, firstMonthNum, first.day);
+      const threeMonthsAhead = new Date(nzYear, nzMonthIdx - 1 + 3, nzDay);
+      if (startDate > threeMonthsAhead) return null;
+
       const firstAbbr = first.month.slice(0, 3);
       const lastAbbr  = lastMonth.slice(0, 3);
 

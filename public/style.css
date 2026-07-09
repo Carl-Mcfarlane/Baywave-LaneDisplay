@@ -1,20 +1,23 @@
 :root {
   /* Aqua brand: dark blue #003c84 (Pantone 286 C), light blue #00d3ff (Pantone 2190 C) */
-  --bg:              #6ee6ff;  /* light aqua — grid/body background */
-  --surface:         #003c84;  /* Pantone 286 C — header and unknown bookings */
-  --border:          #0056b8;  /* mid-blue */
-  --accent:          #ffffff;
-  --text:            #0056b8;  /* dark blue text on light background */
-  --muted:           #c8eeff;  /* light blue for secondary text on dark surfaces */
-  --available:       #d8f8ff;
-  --swimming:        #74c8ff;
-  --aqua:            #ffa3e0;
-  --lts:             #ffea00;
-  --waterpolo:       #ff7b7b;
-  --synchro:         #ffba54;
-  --schools:         #52d9af;
-  --aquafit:         #003c84;
-  --now-line:        #ff6e20;
+  --bg:                #6ee6ff;  /* light aqua — grid/body background */
+  --surface:           #003c84;  /* Pantone 286 C — header */
+  --border:            #0056b8;  /* mid-blue */
+  --accent:            #ffffff;
+  --text:              #0056b8;  /* dark blue text on light background */
+  --muted:             #c8eeff;  /* light blue for secondary text on dark surfaces */
+  /* Booking colours all > 3:1 contrast against bg */
+  --available:         #ffffff;  /* white — clearly open */
+  --swimming:          #0066aa;  /* deep blue */
+  --aqua:              #bb0077;  /* deep magenta */
+  --lts:               #996600;  /* dark amber */
+  --waterpolo:         #cc0000;  /* deep red */
+  --synchro:           #bb4400;  /* burnt orange */
+  --schools:           #007744;  /* deep green */
+  --aquafit:           #003c84;  /* dark navy */
+  --underwater-hockey: #6600aa;  /* deep purple */
+  --other:             #445577;  /* dark slate — Other bookings */
+  --now-line:          #ff6e20;
 }
 
 /* 1rem = 16px at 1920×1080; scales with viewport but capped by height to handle ultrawide */
@@ -282,15 +285,16 @@ header {
   background: var(--bg);
 }
 
-.cell.available           { background: var(--available); }
-.cell.booked              { background: var(--surface); }
-.cell.booked.swimming     { background: var(--swimming); }
-.cell.booked.aqua-class   { background: var(--aqua); }
-.cell.booked.learn-to-swim    { background: var(--lts); }
-.cell.booked.water-polo       { background: var(--waterpolo); }
-.cell.booked.synchro          { background: var(--synchro); }
-.cell.booked.schools-in-pools { background: var(--schools); }
-.cell.booked.bw-aqua-fit      { background: var(--aquafit); }
+.cell.available                    { background: var(--available); }
+.cell.booked                       { background: var(--other); }
+.cell.booked.swimming              { background: var(--swimming); }
+.cell.booked.aqua-class            { background: var(--aqua); }
+.cell.booked.learn-to-swim         { background: var(--lts); }
+.cell.booked.water-polo            { background: var(--waterpolo); }
+.cell.booked.synchro               { background: var(--synchro); }
+.cell.booked.schools-in-pools      { background: var(--schools); }
+.cell.booked.bw-aqua-fit           { background: var(--aquafit); }
+.cell.booked.underwater-hockey     { background: var(--underwater-hockey); }
 
 /* ── NOW LINE ────────────────────────────────────────────────────────────── */
 .now-line {
@@ -334,15 +338,16 @@ header {
   background: var(--bg);
 }
 
-.key-swatch.available     { background: var(--available); }
-.key-swatch.swimming      { background: var(--swimming); }
-.key-swatch.aqua-class    { background: var(--aqua); }
-.key-swatch.learn-to-swim { background: var(--lts); }
-.key-swatch.water-polo    { background: var(--waterpolo); }
-.key-swatch.synchro          { background: var(--synchro); }
-.key-swatch.schools-in-pools { background: var(--schools); }
-.key-swatch.bw-aqua-fit      { background: var(--aquafit); }
-.key-swatch.booked           { background: var(--surface); }
+.key-swatch.available          { background: var(--available); border: 1.5px solid rgba(0,60,132,0.35); }
+.key-swatch.swimming           { background: var(--swimming); }
+.key-swatch.aqua-class         { background: var(--aqua); }
+.key-swatch.learn-to-swim      { background: var(--lts); }
+.key-swatch.water-polo         { background: var(--waterpolo); }
+.key-swatch.synchro            { background: var(--synchro); }
+.key-swatch.schools-in-pools   { background: var(--schools); }
+.key-swatch.bw-aqua-fit        { background: var(--aquafit); }
+.key-swatch.underwater-hockey  { background: var(--underwater-hockey); }
+.key-swatch.booked             { background: var(--other); }
 
 /* ── CLOSURES BAR ────────────────────────────────────────────────────────── */
 #closures-bar {
