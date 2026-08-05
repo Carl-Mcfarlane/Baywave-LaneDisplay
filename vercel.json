@@ -2,7 +2,12 @@
   "rewrites": [
     { "source": "/api/swimlane", "destination": "/api/swimlane" },
     { "source": "/api/pool-temp", "destination": "/api/pool-temp" },
-    { "source": "/api/closures", "destination": "/api/closures" }
+    { "source": "/api/closures", "destination": "/api/closures" },
+    { "source": "/api/heartbeat", "destination": "/api/heartbeat" },
+    { "source": "/api/check-heartbeat", "destination": "/api/check-heartbeat" }
+  ],
+  "crons": [
+    { "path": "/api/check-heartbeat", "schedule": "*/10 * * * *" }
   ],
   "headers": [
     {

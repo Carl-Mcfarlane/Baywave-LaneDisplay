@@ -11,6 +11,7 @@
 <body>
 
 <header>
+  <!-- Decorative background wave, purely cosmetic -->
   <svg class="header-wave" viewBox="0 0 1440 100" preserveAspectRatio="none" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
     <path d="M0,50 C180,90 360,10 540,50 C720,90 900,10 1080,50 C1260,90 1380,30 1440,50 L1440,100 L0,100 Z" fill="#00d3ff" opacity="0.05"/>
     <path d="M0,60 C120,30 300,80 480,55 C660,30 840,75 1020,55 C1200,35 1350,65 1440,55 L1440,100 L0,100 Z" fill="#00d3ff" opacity="0.04"/>
@@ -27,6 +28,7 @@
     </div>
   </div>
 
+  <!-- Clock, date, and pool temp are populated/updated by app.js -->
   <div class="header-right">
     <div id="clock">--:--</div>
     <div id="date-display">Loading...</div>
@@ -34,6 +36,7 @@
   </div>
 </header>
 
+<!-- app.js replaces this loading placeholder with the rendered lane grid -->
 <div class="grid-wrapper">
   <div id="grid-container" class="loading">
     <img src="BV%20logo_Bay%20Venues.png" alt="Bay Venues" class="loading-logo">
@@ -41,6 +44,7 @@
   </div>
 </div>
 
+<!-- Hidden (via .visible class) until app.js finds closures to display -->
 <div id="closures-bar">
   <div class="closures-label">Pool Closures</div>
   <div class="closures-divider"></div>

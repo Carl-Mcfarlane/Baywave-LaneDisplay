@@ -1,6 +1,12 @@
+// Scrapes upcoming Baywave pool closure notices from the lane-availability page.
+// There's no closures API, so this parses the announcement HTML with regexes
+// rather than a proper HTML parser (Node has no built-in DOM).
 const BASE = 'https://www.taurangapools.co.nz';
+// Upstream returns empty/malformed responses without a recognised browser UA.
 const UA   = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15';
 
+// Maps month names (as they appear in closure text) to zero-indexed month numbers,
+// used to build real Date objects for filtering/sorting.
 const MONTHS = {
   january: 0, february: 1, march: 2, april: 3, may: 4, june: 5,
   july: 6, august: 7, september: 8, october: 9, november: 10, december: 11,
@@ -11,6 +17,7 @@ module.exports = async function handler(req, res) {
     const abort = new AbortController();
     const timeout = setTimeout(() => abort.abort(), 15000);
 
+    // Closure notices live on the same lane-availability page as the booking widget
     const pageRes = await fetch(`${BASE}/bookings/lane-availability`, {
       headers: { 'User-Agent': UA, 'Accept': 'text/html' },
       redirect: 'follow',
@@ -34,6 +41,8 @@ module.exports = async function handler(req, res) {
   }
 };
 
+// Strips HTML tags and decodes the handful of HTML entities that show up in
+// closure notices, collapsing whitespace so downstream regexes see plain text.
 function stripTags(s) {
   return s
     .replace(/<[^>]+>/g, ' ')
@@ -45,15 +54,20 @@ function stripTags(s) {
     .trim();
 }
 
-// "27th June", "3rd July", "6th September" etc.
+// Matches dates written like "27th June", "3rd July", "6th September" etc.
 const DATE_RE = /\d{1,2}(?:st|nd|rd|th)\s+(January|February|March|April|May|June|July|August|September|October|November|December)/gi;
 
+// Pulls the day number and month name out of a single matched date string.
 function parseDay(str) {
   const m = str.match(/(\d{1,2})(?:st|nd|rd|th)\s+(\w+)/i);
   return m ? { day: parseInt(m[1], 10), month: m[2] } : null;
 }
 
+// Extracts closure entries for Baywave specifically from the full closures page,
+// which lists notices for every Bay Venues facility back to back under headings.
 function parseBaywaveClosures(html) {
+  // Find the "Baywave" section heading, then slice out everything from there
+  // up to the next facility's heading (or a fallback cap if none is found).
   const headingMatch = html.match(/<h[1-6][^>]*>[^<]*Baywave[^<]*<\/h[1-6]>/i);
   if (!headingMatch) return [];
 
@@ -67,6 +81,7 @@ function parseBaywaveClosures(html) {
     ? fromBaywave.slice(0, nextFacility)
     : fromBaywave.slice(0, 8000);
 
+  // Each closure notice is one <p> element within the Baywave section
   const pMatches = [...sectionHtml.matchAll(/<p[^>]*>([\s\S]*?)<\/p>/gi)];
 
   // Use NZ time — Vercel servers run in UTC, which is up to 13h behind NZT
@@ -115,11 +130,14 @@ function parseBaywaveClosures(html) {
       const firstMonthNum = MONTHS[first.month.toLowerCase()];
       const endYear = (firstMonthNum !== undefined && lastMonthNum < firstMonthNum) ? currentYear + 1 : currentYear;
       const endDate = new Date(endYear, lastMonthNum, lastDay);
+      // Skip closures that have already finished
       if (endDate < today) return null;
 
+      // Same year-rollover logic for the start date, e.g. a January notice found in November
       const startYear = (firstMonthNum !== undefined && firstMonthNum < todayMonth) ? currentYear + 1 : currentYear;
       const startDate = new Date(startYear, firstMonthNum, first.day);
       const threeMonthsAhead = new Date(nzYear, nzMonthIdx - 1 + 3, nzDay);
+      // Cap the display window so far-future closures don't clutter the ticker
       if (startDate > threeMonthsAhead) return null;
 
       const firstAbbr = first.month.slice(0, 3);
@@ -140,6 +158,8 @@ function parseBaywaveClosures(html) {
 
       let times = '';
       if (dayEntries.length > 0) {
+        // Prefer today's specific time slot if the notice lists different times per day,
+        // otherwise fall back to the first listed slot
         const todayEntry = dayEntries.find(e =>
           parseInt(e[1], 10) === todayDay && MONTHS[e[2].toLowerCase()] === todayMonth
         );

@@ -1,3 +1,5 @@
+// Drives the TV lane-availability display: polls the swimlane/pool-temp/closures
+// APIs and renders the results into the grid built in index.html.
 const POOL = 'Baywave';
 const API  = '/api/swimlane';
 const REFRESH_MS = 15 * 60 * 1000;
@@ -7,6 +9,8 @@ const SLOT_COUNT = 32;   // 32 × 30 min = 16 hours → schedule runs 6am–10pm
 const SLOT_MINUTES = 30;
 
 // ── CLOCK ────────────────────────────────────────────────────────────────────
+// Updates the header clock/date, always rendered in NZ time regardless of the
+// host machine's timezone (important since this can run on any TV/PC).
 function updateClock() {
   const now = new Date();
   const timeParts = Object.fromEntries(
@@ -26,11 +30,14 @@ updateClock();
 setInterval(updateClock, 10000);
 
 // ── DATE ────────────────────────────────────────────────────────────────────
+// Today's date in NZ time as YYYY-MM-DD, used as the ?date= param for the swimlane API.
 function todayNZT() {
   return new Date().toLocaleDateString('en-CA', { timeZone: 'Pacific/Auckland' });
 }
 
 // ── NOW LINE ─────────────────────────────────────────────────────────────────
+// Vertical position (0–100%) of the "current time" line overlaid on the grid,
+// as a percentage of the way through the displayed 6am–10pm schedule.
 function nowLinePercent() {
   const parts = Object.fromEntries(
     new Intl.DateTimeFormat('en-NZ', {
@@ -79,6 +86,8 @@ function parseGrid(html) {
 }
 
 // ── TIME LABELS ──────────────────────────────────────────────────────────────
+// Label for time-slot index i (e.g. "6am", "7am"). Only even (hour-aligned)
+// slots get a label — odd half-hour slots return '' and stay blank in the grid.
 function slotLabel(i) {
   if (i % 2 !== 0) return '';
   const totalMins = SLOT_START_HOUR * 60 + i * SLOT_MINUTES;
@@ -89,6 +98,8 @@ function slotLabel(i) {
 }
 
 // ── RENDER ───────────────────────────────────────────────────────────────────
+// Builds the full grid DOM (header row, time column, lane columns, now-line,
+// and colour key) from the parsed lane data and inserts it into #grid-container.
 function render(lanes) {
   const container = document.getElementById('grid-container');
   container.className = 'lane-grid';
@@ -179,8 +190,10 @@ function render(lanes) {
 }
 
 // ── FETCH ────────────────────────────────────────────────────────────────────
-let retryTimeout = null;
+let retryTimeout = null; // pending short-interval retry after a failed fetch, so a later success can cancel it
 
+// Fetches today's lane schedule and renders it, or shows an error message and
+// schedules a 60s retry on failure (separate from the normal REFRESH_MS poll).
 async function fetchLanes() {
   const date = todayNZT();
   const url = `${API}?source=${POOL}&date=${date}`;
@@ -217,8 +230,13 @@ setInterval(() => {
 }, 10000);
 
 // ── CLOSURES TICKER ───────────────────────────────────────────────────────────
+// Wrapper around textContent — kept as a named helper so it reads clearly
+// alongside the DOM-building calls below (and to make the "no innerHTML for
+// untrusted text" intent explicit).
 function safeText(el, text) { el.textContent = text; }
 
+// Builds one pass of the ticker content (date, event, area/times) as DOM nodes.
+// Called twice by fetchClosures so the strip can loop seamlessly.
 function buildTickerSegment(closures) {
   const frag = document.createDocumentFragment();
   closures.forEach(({ date, event, area, times }, i) => {
@@ -260,6 +278,9 @@ function buildTickerSegment(closures) {
   return frag;
 }
 
+// Fetches upcoming closures and populates the scrolling ticker bar, hiding the
+// bar entirely when there are none. Duplicates the content so the CSS
+// translateX(-50%) loop animation has no visible seam.
 async function fetchClosures() {
   const bar    = document.getElementById('closures-bar');
   const ticker = document.getElementById('closures-ticker');
@@ -291,6 +312,7 @@ async function fetchClosures() {
 }
 
 // ── POOL TEMP ─────────────────────────────────────────────────────────────────
+// Fetches the current lap pool temperature and writes it into the header.
 async function fetchPoolTemp() {
   try {
     const res = await fetch('/api/pool-temp');
@@ -302,9 +324,21 @@ async function fetchPoolTemp() {
   } catch (_) {}
 }
 
+// ── HEARTBEAT ─────────────────────────────────────────────────────────────────
+// Pings the server every poll cycle so check-heartbeat.js can alert if this
+// display goes quiet. Sent regardless of whether fetchLanes/fetchPoolTemp
+// succeed — this tracks whether the TV's browser is alive, not whether the
+// upstream Baywave site is reachable.
+function sendHeartbeat() {
+  fetch('/api/heartbeat', { method: 'POST' }).catch(() => {});
+}
+
 // ── INIT ──────────────────────────────────────────────────────────────────────
 fetchLanes();
 setInterval(fetchLanes, REFRESH_MS);
+
+sendHeartbeat();
+setInterval(sendHeartbeat, REFRESH_MS);
 
 fetchPoolTemp();
 setInterval(fetchPoolTemp, REFRESH_MS);
