@@ -1,4 +1,15 @@
 {
+  "functions": {
+    "api/swimlane.js": {
+      "regions": ["syd1"]
+    },
+    "api/pool-temp.js": {
+      "regions": ["syd1"]
+    },
+    "api/closures.js": {
+      "regions": ["syd1"]
+    }
+  },
   "rewrites": [
     { "source": "/api/swimlane", "destination": "/api/swimlane" },
     { "source": "/api/pool-temp", "destination": "/api/pool-temp" },

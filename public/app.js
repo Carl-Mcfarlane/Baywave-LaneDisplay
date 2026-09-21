@@ -344,7 +344,7 @@ fetchPoolTemp();
 setInterval(fetchPoolTemp, REFRESH_MS);
 
 fetchClosures();
-setInterval(fetchClosures, 60 * 60 * 1000);
+setInterval(fetchClosures, REFRESH_MS);
 
 // Hard reload every hour so deployed code changes are picked up automatically
 setInterval(() => location.reload(), 60 * 60 * 1000);

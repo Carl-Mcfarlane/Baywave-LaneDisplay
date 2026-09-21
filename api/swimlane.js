@@ -11,9 +11,10 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Missing source or date param' });
   }
 
+  let timeout;
   try {
     const abort = new AbortController();
-    const timeout = setTimeout(() => abort.abort(), 15000);
+    timeout = setTimeout(() => abort.abort(), 15000);
 
     // Step 1: fetch the main page to get a fresh session + XSRF cookie
     const pageRes = await fetch(`${BASE}/bookings/lane-availability`, {

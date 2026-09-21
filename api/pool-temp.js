@@ -5,9 +5,10 @@ const BASE = 'https://www.taurangapools.co.nz';
 const UA   = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15';
 
 module.exports = async function handler(req, res) {
+  let timeout;
   try {
     const abort = new AbortController();
-    const timeout = setTimeout(() => abort.abort(), 15000);
+    timeout = setTimeout(() => abort.abort(), 15000);
 
     // Fetch the facility page HTML — the temperature is embedded in plain text, not an API field
     const pageRes = await fetch(`${BASE}/public-pools/baywave`, {

@@ -13,9 +13,10 @@ const MONTHS = {
 };
 
 module.exports = async function handler(req, res) {
+  let timeout;
   try {
     const abort = new AbortController();
-    const timeout = setTimeout(() => abort.abort(), 15000);
+    timeout = setTimeout(() => abort.abort(), 15000);
 
     // Closure notices live on the same lane-availability page as the booking widget
     const pageRes = await fetch(`${BASE}/bookings/lane-availability`, {
