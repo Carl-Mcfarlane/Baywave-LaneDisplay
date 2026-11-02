@@ -289,6 +289,12 @@ function buildTickerSegment(closures) {
   safeText(noticeEl, 'Ask a lifeguard about the accessible stairs.');
   noticeItem.appendChild(noticeEl);
   frag.appendChild(noticeItem);
+
+  // Separator between this pass and the next one in the loop
+  const loopDiamond = document.createElement('span');
+  loopDiamond.className = 'ticker-diamond';
+  loopDiamond.textContent = '◆';
+  frag.appendChild(loopDiamond);
   return frag;
 }
 
