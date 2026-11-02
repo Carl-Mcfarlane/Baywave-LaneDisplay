@@ -423,6 +423,8 @@ header {
   letter-spacing: 0.03em;
 }
 
+.ticker-notice { font-weight: 800; }
+
 .ticker-meta {
   font-size: 0.8rem;
   color: var(--muted);

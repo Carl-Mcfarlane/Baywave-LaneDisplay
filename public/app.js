@@ -275,6 +275,20 @@ function buildTickerSegment(closures) {
 
     frag.appendChild(item);
   });
+
+  // Static notice that rolls by after the closures on every pass
+  const notice = document.createElement('span');
+  notice.className = 'ticker-diamond';
+  notice.textContent = '◆';
+  frag.appendChild(notice);
+
+  const noticeItem = document.createElement('span');
+  noticeItem.className = 'ticker-item';
+  const noticeEl = document.createElement('span');
+  noticeEl.className = 'ticker-event ticker-notice';
+  safeText(noticeEl, 'Ask a lifeguard about the accessible stairs.');
+  noticeItem.appendChild(noticeEl);
+  frag.appendChild(noticeItem);
   return frag;
 }
 
